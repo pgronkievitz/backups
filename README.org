@@ -1,3 +1,4 @@
 #+TITLE: Kopie bezpieczeństwa w systemach informatycznych
+#+SUBTITLE: Projektowanie systemów bezpieczeństwa
 #+AUTHOR: Patryk Gronkiewicz 164157, Piotr Krawiec 164165
 #+EMAIL: 164157@stud.prz.edu.pl, 164165@stud.prz.edu.pl

@@ -1,30 +1,29 @@
 {
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-20.03";
+  inputs.nixpkgs.url = "nixpkgs/nixos-unstable";
+  description = "configs for our backup containers";
 
-  outputs = { self, nixpkgs }: {
-
-    nixosConfigurations.container = nixpkgs.lib.nixosSystem {
+  outputs = inputs@{ self, nixpkgs, ... }:
+    let
       system = "x86_64-linux";
-      modules =
-        [ ({ pkgs, ... }: {
-            boot.isContainer = true;
+      pkgs = import nixpkgs { inherit system; };
+      lib = nixpkgs.lib;
+    in {
+      packages."${system}" = pkgs;
 
-            # Let 'nixos-version --json' know about the Git revision
-            # of this flake.
-            system.configurationRevision = nixpkgs.lib.mkIf (self ? rev) self.rev;
+      nixosConfigurations = {
+        restic = lib.nixosSystem {
+          inherit system;
+          modules = [ ./restic.nix ];
+        };
+        duplicati = lib.nixosSystem {
+          inherit system;
+          modules = [ ./duplicati.nix ];
+        };
+        rsync = lib.nixosSystem {
+          inherit system;
+          modules = [ ./rsync.nix ];
+        };
+      };
 
-            # Network configuration.
-            networking.useDHCP = false;
-            networking.firewall.allowedTCPPorts = [ 80 ];
-
-            # Enable a web server.
-            services.httpd = {
-              enable = true;
-              adminAddr = "morty@example.org";
-            };
-          })
-        ];
     };
-
-  };
 }

@@ -11,6 +11,7 @@ Jest to najprostsza opcja dostępna na praktycznie każdym urządzeniu z Linuxem
 
 W naszym przypadku przydatne okazało się też polecenie =date=, które posłużyło do nadawania unikalnych nazw kolejnym kopiom zapasowym. Dodatkowo zastosowano =cron=-a, który pozwolił nam na zaplanowanie wykonywania kopii.
 ** Duplicati
+W naszym zestawie rozwiązań jest to najbardziej multiplatformowe i proste do użycia rozwiązanie - jest proste do ustawienia zarówno na Windowsie, Linuxie, jak i macOS. Po zainstalowaniu go możemy zarządzać wszystkimi jego ustawieniami z pomocą interfejsu przeglądarkowego. Jako jedyne niestety nie ma opcji ustawiania z pomocą linii komend, co można rozwiązać z pomocą zewnętrznych pakietów dostępnych np. w =pip=-ie.
 ** Restic
 * Sposób działania
 ** Rsync + tar

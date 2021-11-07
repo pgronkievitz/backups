@@ -7,6 +7,9 @@
 
 * Wybrane programy
 ** Rsync + tar
+Jest to najprostsza opcja dostępna na praktycznie każdym urządzeniu z Linuxem. Rozwiązanie to składa się w rzeczywistości z dwóch programów - =rsync= oraz =tar=. Pierwszy z nich służy do kopiowania plików lokalnie oraz na serwery zdalne, natomiast drugi generuje pojedynczy plik z naszego backupu. =tar= pozwala także na zmniejszenie rozmiaru kopii dzięki wykorzystaniu kompresji.
+
+W naszym przypadku przydatne okazało się też polecenie =date=, które posłużyło do nadawania unikalnych nazw kolejnym kopiom zapasowym. Dodatkowo zastosowano =cron=-a, który pozwolił nam na zaplanowanie wykonywania kopii.
 ** Duplicati
 ** Restic
 * Sposób działania

@@ -3,8 +3,25 @@
 #+AUTHOR: Patryk Gronkiewicz 164157, Piotr Krawiec 164165
 #+EMAIL: 164157@stud.prz.edu.pl, 164165@stud.prz.edu.pl
 #+OPTIONS: toc:nil
-#+REVEAL_TITLE_SLIDE: <h1>%t</h1>
-#+REVEAL_TITLE_SLIDE: <h2>%s</h2><br>
-#+REVEAL_TITLE_SLIDE: %a
-#+REVEAL_THEME: solarized
-#+REVEAL_HLEVEL: 2
+#+LANGUAGE: pl
+
+* Wybrane programy
+** Rsync + tar
+** Duplicati
+** Restic
+* Sposób działania
+** Rsync + tar
+** Duplicati
+** Restic
+* Retencja
+** Rsync + tar
+** Duplicati
+** Restic
+* Typy kopii
+** Rsync + tar
+** Duplicati
+** Restic
+* Chmura
+** Rsync + tar
+** Duplicati
+** Restic

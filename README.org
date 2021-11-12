@@ -17,7 +17,32 @@ Duplicati działa podobnie jak większość podobnych mu systemów backupów. W 
 
 Format w jakim duplicati tworzy backupy opiera się o bloki. Oznacza to, że Duplicati nie kopiuje bezpośrednio plików w wybrane miejsce, a dzieli je na mniejsze bloki. Natomiast małe pliki łączone są w większe bloki. Nazwy stworzonych bloków są tworzone tak, aby nie niosły za sobą informacji o dacie stworzenia czy zawartości, dzięki czemu można je przechowywac bezpiecznie w chmurze. Informacja o tym jakie pliki znajdują się w danym bloku znajduje się w bazie danych, która zostaje stworzona dla każdej z kopii zapasowych (zarówno lokalnie jak i zdalnie).
 
-Aby zapewnić dodatkowe bezpieczeństwo domyślnie Duplicati sugeruje, aby wszystkie dane szyfrować. Aplikacja sama generuje hasło i je zapisuje, a my tak wygenerowaną konfigurację (z zapisanymi hasłami) zapisać w bezpiecznym miejscu (Secure Notes itp.).
+#+NAME: Fragment pliku filenames.json zawierającego informacje o przechowywanych plikach
+#+BEGIN_SRC json
+[
+  {
+  "type": "Folder",
+  "path": "C:\\data\\"
+  },
+  {
+  "type": "File",
+  "path": "C:\\data\\mydoc.txt",
+  "size": 4096,
+  "hash": "qaFXpxVTuYCuibb9P41VSeVn4pIaK8o3jUpJKqI4VF4="
+  },
+  {
+  "type": "File",
+  "path": "C:\\data\\myvideo.mp4",
+  "size": 215040,
+  "hash": "4sGwVN/QuWHD+yVI10qgYa4e2F5M4zXLKBQaf1rtTCs=",
+  "blocklists": [ "Uo1f4rVjNRX10HkxQxXauCrRv0wJOvStqt9gaUT0uPA=" ]
+  }
+]
+#+END_SRC
+
+Plik =filenames.json= przechowuje informacje o tym jaki jest =hash= pliku, dzięki temu wiadomo czy nie został zmieniony. A ponadto to właśnie na jego podstawie powstają wcześniej wspomniane bloki. Duplicati tworząc kolejny plik =dblock= dodaje informacje o przechowanych w nich =hash= w bazie =dindex=. [fn:: https://www.duplicati.com/articles/Backup-Process/]
+
+Aby zapewnić dodatkowe bezpieczeństwo domyślnie Duplicati sugeruje, aby wszystkie dane szyfrować. Aplikacja sama generuje hasło i je zapisuje, a my tak wygenerowaną konfigurację (z zapisanymi hasłami) zapisać w bezpiecznym miejscu (Secure Notes itp.). Szyfrowanie bloków sprawia, że nawet dostawca usług chmurowych nie będzie w stanie podejrzeć jakie pliki czy dane przechowyujemy na jego serwerze.
 
 #+CAPTION: Schemat blokowy procesu tworzenia kopii przez Duplicati
 [[./img/duplicati/duplicati-processing-files-and-folders.png]]
@@ -44,6 +69,9 @@ Duplicati oferuje zarówno gotowe tryby retencji, jak i pozwala na ręczne ustaw
 * Typy kopii
 ** Rsync + tar
 ** Duplicati
+
+W tradycyjnych programach mamy wybór: pełna kopia, różnicowa i przyrostowa. Duplicati nie korzysta wyłącznie z jednego trybu kopii. Podczas tworzenia kopii działa podoie do kopii przyrosowej, wyłącznie zmienione bloki są wysyłane do miejsca przechowywania kopii. Natomiast w przypadku przywracania każda kopia jest widoczna jako pełna kopia danych (każda kopia zawiera odwołania do wszystkich plików i folderów), co pozwala na szybkie ich przywrócenie. [fn:: https://forum.duplicati.com/t/complete-incremental-or-differential/250]
+
 ** Restic
 * Chmura
 ** Rsync + tar

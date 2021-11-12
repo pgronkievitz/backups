@@ -26,6 +26,20 @@ Aby zapewnić dodatkowe bezpieczeństwo domyślnie Duplicati sugeruje, aby wszys
 * Retencja
 ** Rsync + tar
 ** Duplicati
+
+Duplicati oferuje zarówno gotowe tryby retencji, jak i pozwala na ręczne ustawienie retencji.
+
+- =Keep all backups= - żadne dane nie zostają usunięte (utrzymywane są wszystkie wersje plików). Kopia zapasowa będzie rosła z każdą zmianą.
+- =Delete backups that are older than= - usuwa wszystkie kopie plików starsze niż podana ilość czasu, o ile znaleziona zostanie co najmniej jedna nowsza wersja kopii.
+- =Keep a specific number of backups= - najstarsze kopie plików ponad podaną ilość są usuwane.
+- =Smart backup retention= - tryb smart, kopie zostają usuwane automatycznie jeżeli będzie ich więcej niż:
+    - Po jednej kopii na każdy z ostatnich 7 dni
+    - Po jednej kopii na każdy z ostatnich 4 togodnii
+    - Po jednej kopii na każdy z ostatnich 12 miesięcy
+    - Zawsze istnieć będzie co najmniej jedna kopia
+- =Custom backup retention= - pozwala na ustawienie dowolnej kombinacji w formacie: =NUMER= =CZAS=:=NUMER= =CZAS=. Np. 1W:1D, pozostawia na następne 7 dni jedną kopię z każdego dnia.
+
+
 ** Restic
 * Typy kopii
 ** Rsync + tar

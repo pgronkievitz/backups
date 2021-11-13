@@ -116,4 +116,3 @@ Po autozyzacji uzyskamy AuthId, wpisujemy je jak na obrazku poniżej.
 [[./img/google/4.png]]
 
 ** Restic
-* [[.img/duplicati/1.png]]

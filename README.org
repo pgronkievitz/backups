@@ -77,4 +77,4 @@ W tradycyjnych programach mamy wybór: pełna kopia, różnicowa i przyrostowa. 
 ** Rsync + tar
 ** Duplicati
 ** Restic
-* .img/duplicati/1.png
+* [[.img/duplicati/1.png]]

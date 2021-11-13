@@ -77,7 +77,7 @@ W tradycyjnych programach mamy wybór: pełna kopia, różnicowa i przyrostowa. 
 ** Rsync + tar
 ** Duplicati
 
-Duplicati zostało zbudowane z myślą o tworzeniu zadalnych kopii. Wspiera standardowe protokoły FTP, SSH, WebDAV. Ponadto dobrze integruje się z serwisami oferującymi przestrzeń dyskową typu Microfost OneDrive, Google Drive, Mega itp. oraz wspiera serwisy chmurowe: Backblaze B2, Google Cloud Storage, Amazon S3. [[fn:: https://www.duplicati.com/]]
+Duplicati zostało zbudowane z myślą o tworzeniu zadalnych kopii. Wspiera standardowe protokoły FTP, SSH, WebDAV. Ponadto dobrze integruje się z serwisami oferującymi przestrzeń dyskową typu Microfost OneDrive, Google Drive, Mega itp. oraz wspiera serwisy chmurowe: Backblaze B2, Google Cloud Storage, Amazon S3. [fn:: https://www.duplicati.com/]
 
 *** Backblaze B2
 
@@ -100,9 +100,20 @@ Tak wygenerowny klucz wprowadzamy do aplikacji.
 
 *** Google Cloud Storage
 
-W przypadku Google Cloud Storage wymagania są podobne. Jednak, ponieważ interfejst Google Cloud jest znacznie bardziej rozbudowany, zaprezentuję metodę, która pozwala sworzyć backup równie prosto jak w przypadku Backblaze B2. Zacząć należy jak poprzednio od utworzenia bucketa w Google Cloud Storage.
+W przypadku Google Cloud Storage wymagania są podobne. Jednak, ponieważ interfejs Google Cloud jest znacznie bardziej rozbudowany, zaprezentuję metodę, która pozwala sworzyć backup równie prosto jak w przypadku Backblaze B2. Zacząć należy jak poprzednio od utworzenia bucketa w Google Cloud Storage.
 
+#+CAPTION: Stworzenie bucketa w Google Cloud Storage
+[[./img/google/1.png]]
 
+Następnie należy wejść w link [[https://duplicati-oauth-handler.appspot.com?type=gcs]]. Wtedy po naciśnięciu tutaj:
+
+#+CAPTION: Autoryzacja w GCS
+[[./img/google/3.png]]
+
+Po autozyzacji uzyskamy AuthId, wpisujemy je jak na obrazku poniżej.
+
+#+CAPTION: Konfiguracja GCS w Duplicati
+[[./img/google/4.png]]
 
 ** Restic
 * [[.img/duplicati/1.png]]

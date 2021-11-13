@@ -76,5 +76,33 @@ W tradycyjnych programach mamy wybór: pełna kopia, różnicowa i przyrostowa. 
 * Chmura
 ** Rsync + tar
 ** Duplicati
+
+Duplicati zostało zbudowane z myślą o tworzeniu zadalnych kopii. Wspiera standardowe protokoły FTP, SSH, WebDAV. Ponadto dobrze integruje się z serwisami oferującymi przestrzeń dyskową typu Microfost OneDrive, Google Drive, Mega itp. oraz wspiera serwisy chmurowe: Backblaze B2, Google Cloud Storage, Amazon S3. [[fn:: https://www.duplicati.com/]]
+
+*** Backblaze B2
+
+Integracja z Backblaze jest bardzo prosta, sprowadza się do ustawienia B2 jako miejsca gdzie będziemy dane przechowywać i wprowadzeniu kluczy dostępu. Proces tworzenia klucza i konfiguracji Duplicati został umieszczony poniżej.
+
+#+CAPTION: Tworzenie bucketa w Backblaze B2
+[[./img/backblaze/6.png]]
+
+Po utworzeniu bucketa, należy stworzyć klucz aplikacji, który pozwoli Duplicati na dostęp do B2.
+
+#+CAPTION: Tworzenie klucza dostępu
+[[./img/backblaze/7.png]]
+
+Po wygenerawaniu klucza należy natychmiast wprowadzić go do aplikacji, gdyż nie można go odczytać drugi raz - należałoby stworzyć nowy klucz dostępu.
+
+#+CAPTION: Wygenerowany klucz
+[[./img/backblaze/8.png]]
+
+Tak wygenerowny klucz wprowadzamy do aplikacji.
+
+*** Google Cloud Storage
+
+W przypadku Google Cloud Storage wymagania są podobne. Jednak, ponieważ interfejst Google Cloud jest znacznie bardziej rozbudowany, zaprezentuję metodę, która pozwala sworzyć backup równie prosto jak w przypadku Backblaze B2. Zacząć należy jak poprzednio od utworzenia bucketa w Google Cloud Storage.
+
+
+
 ** Restic
 * [[.img/duplicati/1.png]]

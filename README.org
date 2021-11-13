@@ -13,6 +13,7 @@ W naszym przypadku przydatne okazało się też polecenie =date=, które posłu�
 ** Duplicati
 W naszym zestawie rozwiązań jest to najbardziej multiplatformowe i proste do użycia rozwiązanie - jest proste do ustawienia zarówno na Windowsie, Linuxie, jak i macOS. Po zainstalowaniu go możemy zarządzać wszystkimi jego ustawieniami z pomocą interfejsu przeglądarkowego. Jako jedyne niestety nie ma opcji ustawiania z pomocą linii komend, co można rozwiązać z pomocą zewnętrznych pakietów dostępnych np. w =pip=-ie.
 ** Restic
+Rozwiązanie najbardziej rozbudowane, lecz wymagające więcej doświadczenia w konfiguracji. Pozwala na stosunkowo proste skonfigurowanie retencji, połączenia do mniej typowych chmur takich jak S3, lecz nie uruchamia się automatycznie. Do odpowiedniego działania wymagane jest, aby użyć planowania backupów przez CRON lub =systemd-timers=.
 * Sposób działania
 ** Rsync + tar
 ** Duplicati

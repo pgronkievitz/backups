@@ -17,16 +17,107 @@ Rozwiązanie najbardziej rozbudowane, lecz wymagające więcej doświadczenia w 
 * Sposób działania
 ** Rsync + tar
 ** Duplicati
+
+Duplicati działa podobnie jak większość podobnych mu systemów backupów. W tle uruchomiony jest serwis sprawdzający czy warunki uruchomienia danej konfiguracji zostały spełnione. Jeżeli tak, uruchamiana jest odpowiednia konfiguracja. Po zakończeniu działania danej konfiguracji otrzymujemy powiadomienie w przypadku jej niepowodzenia. Informacja o tym kiedy wykonana została odstatnia kopia zapasowa dostępna jest z poziomu interfejsu przeglądarkowego.
+
+Format w jakim duplicati tworzy backupy opiera się o bloki. Oznacza to, że Duplicati nie kopiuje bezpośrednio plików w wybrane miejsce, a dzieli je na mniejsze bloki. Natomiast małe pliki łączone są w większe bloki. Nazwy stworzonych bloków są tworzone tak, aby nie niosły za sobą informacji o dacie stworzenia czy zawartości, dzięki czemu można je przechowywac bezpiecznie w chmurze. Informacja o tym jakie pliki znajdują się w danym bloku znajduje się w bazie danych, która zostaje stworzona dla każdej z kopii zapasowych (zarówno lokalnie jak i zdalnie).
+
+#+NAME: Fragment pliku filenames.json zawierającego informacje o przechowywanych plikach
+#+BEGIN_SRC json
+[
+  {
+  "type": "Folder",
+  "path": "C:\\data\\"
+  },
+  {
+  "type": "File",
+  "path": "C:\\data\\mydoc.txt",
+  "size": 4096,
+  "hash": "qaFXpxVTuYCuibb9P41VSeVn4pIaK8o3jUpJKqI4VF4="
+  },
+  {
+  "type": "File",
+  "path": "C:\\data\\myvideo.mp4",
+  "size": 215040,
+  "hash": "4sGwVN/QuWHD+yVI10qgYa4e2F5M4zXLKBQaf1rtTCs=",
+  "blocklists": [ "Uo1f4rVjNRX10HkxQxXauCrRv0wJOvStqt9gaUT0uPA=" ]
+  }
+]
+#+END_SRC
+
+Plik =filenames.json= przechowuje informacje o tym jaki jest =hash= pliku, dzięki temu wiadomo czy nie został zmieniony. A ponadto to właśnie na jego podstawie powstają wcześniej wspomniane bloki. Duplicati tworząc kolejny plik =dblock= dodaje informacje o przechowanych w nich =hash= w bazie =dindex=. [fn:: https://www.duplicati.com/articles/Backup-Process/]
+
+Aby zapewnić dodatkowe bezpieczeństwo domyślnie Duplicati sugeruje, aby wszystkie dane szyfrować. Aplikacja sama generuje hasło i je zapisuje, a my tak wygenerowaną konfigurację (z zapisanymi hasłami) zapisać w bezpiecznym miejscu (Secure Notes itp.). Szyfrowanie bloków sprawia, że nawet dostawca usług chmurowych nie będzie w stanie podejrzeć jakie pliki czy dane przechowyujemy na jego serwerze.
+
+#+CAPTION: Schemat blokowy procesu tworzenia kopii przez Duplicati
+[[./img/duplicati/duplicati-processing-files-and-folders.png]]
+
 ** Restic
 * Retencja
 ** Rsync + tar
 ** Duplicati
+
+Duplicati oferuje zarówno gotowe tryby retencji, jak i pozwala na ręczne ustawienie retencji.
+
+- =Keep all backups= - żadne dane nie zostają usunięte (utrzymywane są wszystkie wersje plików). Kopia zapasowa będzie rosła z każdą zmianą.
+- =Delete backups that are older than= - usuwa wszystkie kopie plików starsze niż podana ilość czasu, o ile znaleziona zostanie co najmniej jedna nowsza wersja kopii.
+- =Keep a specific number of backups= - najstarsze kopie plików ponad podaną ilość są usuwane.
+- =Smart backup retention= - tryb smart, kopie zostają usuwane automatycznie jeżeli będzie ich więcej niż:
+    - Po jednej kopii na każdy z ostatnich 7 dni
+    - Po jednej kopii na każdy z ostatnich 4 togodnii
+    - Po jednej kopii na każdy z ostatnich 12 miesięcy
+    - Zawsze istnieć będzie co najmniej jedna kopia
+- =Custom backup retention= - pozwala na ustawienie dowolnej kombinacji w formacie: =NUMER= =CZAS=:=NUMER= =CZAS=. Np. 1W:1D, pozostawia na następne 7 dni jedną kopię z każdego dnia.
+
+
 ** Restic
 * Typy kopii
 ** Rsync + tar
 ** Duplicati
+
+W tradycyjnych programach mamy wybór: pełna kopia, różnicowa i przyrostowa. Duplicati nie korzysta wyłącznie z jednego trybu kopii. Podczas tworzenia kopii działa podoie do kopii przyrosowej, wyłącznie zmienione bloki są wysyłane do miejsca przechowywania kopii. Natomiast w przypadku przywracania każda kopia jest widoczna jako pełna kopia danych (każda kopia zawiera odwołania do wszystkich plików i folderów), co pozwala na szybkie ich przywrócenie. [fn:: https://forum.duplicati.com/t/complete-incremental-or-differential/250]
+
 ** Restic
 * Chmura
 ** Rsync + tar
 ** Duplicati
+
+Duplicati zostało zbudowane z myślą o tworzeniu zadalnych kopii. Wspiera standardowe protokoły FTP, SSH, WebDAV. Ponadto dobrze integruje się z serwisami oferującymi przestrzeń dyskową typu Microfost OneDrive, Google Drive, Mega itp. oraz wspiera serwisy chmurowe: Backblaze B2, Google Cloud Storage, Amazon S3. [fn:: https://www.duplicati.com/]
+
+*** Backblaze B2
+
+Integracja z Backblaze jest bardzo prosta, sprowadza się do ustawienia B2 jako miejsca gdzie będziemy dane przechowywać i wprowadzeniu kluczy dostępu. Proces tworzenia klucza i konfiguracji Duplicati został umieszczony poniżej.
+
+#+CAPTION: Tworzenie bucketa w Backblaze B2
+[[./img/backblaze/6.png]]
+
+Po utworzeniu bucketa, należy stworzyć klucz aplikacji, który pozwoli Duplicati na dostęp do B2.
+
+#+CAPTION: Tworzenie klucza dostępu
+[[./img/backblaze/7.png]]
+
+Po wygenerawaniu klucza należy natychmiast wprowadzić go do aplikacji, gdyż nie można go odczytać drugi raz - należałoby stworzyć nowy klucz dostępu.
+
+#+CAPTION: Wygenerowany klucz
+[[./img/backblaze/8.png]]
+
+Tak wygenerowny klucz wprowadzamy do aplikacji.
+
+*** Google Cloud Storage
+
+W przypadku Google Cloud Storage wymagania są podobne. Jednak, ponieważ interfejs Google Cloud jest znacznie bardziej rozbudowany, zaprezentuję metodę, która pozwala sworzyć backup równie prosto jak w przypadku Backblaze B2. Zacząć należy jak poprzednio od utworzenia bucketa w Google Cloud Storage.
+
+#+CAPTION: Stworzenie bucketa w Google Cloud Storage
+[[./img/google/1.png]]
+
+Następnie należy wejść w link [[https://duplicati-oauth-handler.appspot.com?type=gcs]]. Wtedy po naciśnięciu tutaj:
+
+#+CAPTION: Autoryzacja w GCS
+[[./img/google/3.png]]
+
+Po autozyzacji uzyskamy AuthId, wpisujemy je jak na obrazku poniżej.
+
+#+CAPTION: Konfiguracja GCS w Duplicati
+[[./img/google/4.png]]
+
 ** Restic

@@ -7,8 +7,13 @@
 
 * Wybrane programy
 ** Rsync + tar
+Jest to najprostsza opcja dostępna na praktycznie każdym urządzeniu z Linuxem. Rozwiązanie to składa się w rzeczywistości z dwóch programów - =rsync= oraz =tar=. Pierwszy z nich służy do kopiowania plików lokalnie oraz na serwery zdalne, natomiast drugi generuje pojedynczy plik z naszego backupu. =tar= pozwala także na zmniejszenie rozmiaru kopii dzięki wykorzystaniu kompresji.
+
+W naszym przypadku przydatne okazało się też polecenie =date=, które posłużyło do nadawania unikalnych nazw kolejnym kopiom zapasowym. Dodatkowo zastosowano =cron=-a, który pozwolił nam na zaplanowanie wykonywania kopii.
 ** Duplicati
+W naszym zestawie rozwiązań jest to najbardziej multiplatformowe i proste do użycia rozwiązanie - jest proste do ustawienia zarówno na Windowsie, Linuxie, jak i macOS. Po zainstalowaniu go możemy zarządzać wszystkimi jego ustawieniami z pomocą interfejsu przeglądarkowego. Jako jedyne niestety nie ma opcji ustawiania z pomocą linii komend, co można rozwiązać z pomocą zewnętrznych pakietów dostępnych np. w =pip=-ie.
 ** Restic
+Rozwiązanie najbardziej rozbudowane, lecz wymagające więcej doświadczenia w konfiguracji. Pozwala na stosunkowo proste skonfigurowanie retencji, połączenia do mniej typowych chmur takich jak S3, lecz nie uruchamia się automatycznie. Do odpowiedniego działania wymagane jest, aby użyć planowania backupów przez CRON lub =systemd-timers=.
 * Sposób działania
 ** Rsync + tar
 ** Duplicati
@@ -64,14 +69,10 @@ Duplicati oferuje zarówno gotowe tryby retencji, jak i pozwala na dostosowanie 
     - Przy czym zawsze istnieć będzie co najmniej jedna kopia danych
 - =Custom backup retention= - pozwala na ustawienie dowolnej kombinacji w formacie: =NUMER= =CZAS=:=NUMER= =CZAS=. Np. 1W:1D, pozostawia na następne 7 dni jedną kopię z każdego dnia.
 
-
 ** Restic
 * Typy kopii
 ** Rsync + tar
 ** Duplicati
-
-W tradycyjnych programach mamy wybór: pełna kopia, różnicowa i przyrostowa. Duplicati nie korzysta wyłącznie z jednego trybu kopii. Podczas tworzenia kopii działa podoie do kopii przyrosowej, wyłącznie zmienione bloki są wysyłane do miejsca przechowywania kopii. Natomiast w przypadku przywracania każda kopia jest widoczna jako pełna kopia danych (każda kopia zawiera odwołania do wszystkich plików i folderów), co pozwala na szybkie ich przywrócenie. [fn:: https://forum.duplicati.com/t/complete-incremental-or-differential/250]
-
 ** Restic
 * Chmura
 ** Rsync + tar

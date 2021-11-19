@@ -18,7 +18,7 @@ Rozwiązanie najbardziej rozbudowane, lecz wymagające więcej doświadczenia w 
 ** Rsync + tar
 ** Duplicati
 
-Duplicati działa podobnie jak większość podobnych mu systemów backupów. W tle uruchomiony jest serwis sprawdzający czy warunki uruchomienia danej konfiguracji zostały spełnione. Jeżeli tak, uruchamiane jest proces wykonujący kopię. Po zakończeniu działania procesu otrzymujemy powiadomienie w przypadku jego niepowodzenia. Informacja o tym kiedy wykonana została odstatnia kopia zapasowa dostępna jest z poziomu interfejsu przeglądarkowego.
+Działający w tle serwis Duplicai sprawdza czy warunki uruchomienia danej konfiguracji zostały spełnione. Jeżeli tak, uruchamiany jest proces wykonujący kopię. W przypadku wystąpienia błędu otrzymujemy powiadomienie o niepowodzeniu. Informacja o tym, kiedy wykonana została odstatnia kopia zapasowa dostępna jest z poziomu interfejsu przeglądarkowego. Jest on dostępny z hosta na porcie 8200.
 
 Format w jakim duplicati tworzy backupy oparty jest na blokach. Oznacza to, że Duplicati nie kopiuje bezpośrednio plików w wybrane miejsce, a dzieli i łączy je w mniejsze bloki stałej długości. Nazwy stworzonych bloków są tworzone tak, aby nie niosły za sobą informacji o dacie stworzenia ani zawartości, dzięki czemu można je bezp przechowywać w chmurze. Informacja o tym jakie pliki znajdują się w danym bloku znajduje się w bazie danych, która zostaje stworzona dla każdej z kopii zapasowych (zarówno lokalnie jak i zdalnie).
 

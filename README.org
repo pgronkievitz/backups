@@ -77,7 +77,7 @@ Duplicati oferuje zarówno gotowe tryby retencji, jak i pozwala na dostosowanie 
 ** Restic
 * Typy kopii
 ** Rsync + tar
-** Duplicati . .w``
+** Duplicati
 ** Restic
 * Chmura
 ** Rsync + tar

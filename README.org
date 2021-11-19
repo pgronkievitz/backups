@@ -7,20 +7,20 @@
 
 * Wybrane programy
 ** Rsync + tar
-Jest to najprostsza opcja dostępna na praktycznie każdym urządzeniu z Linuxem. Rozwiązanie to składa się w rzeczywistości z dwóch programów - =rsync= oraz =tar=. Pierwszy z nich służy do kopiowania plików lokalnie oraz na serwery zdalne, natomiast drugi generuje pojedynczy plik z naszego backupu. =tar= pozwala także na zmniejszenie rozmiaru kopii dzięki wykorzystaniu kompresji.
+Jest to najprostsza opcja dostępna na praktycznie każdym urządzeniu z Linuxem. Rozwiązanie to składa się w rzeczywistości z dwóch programów - /rsync/ oraz /tar/. Pierwszy z nich służy do kopiowania plików lokalnie oraz na serwery zdalne, natomiast drugi generuje pojedynczy plik z naszego backupu. /tar/ pozwala także na zmniejszenie rozmiaru kopii dzięki wykorzystaniu kompresji.
 
-W naszym przypadku przydatne okazało się też polecenie =date=, które posłużyło do nadawania unikalnych nazw kolejnym kopiom zapasowym. Dodatkowo zastosowano =cron=-a, który pozwolił nam na zaplanowanie wykonywania kopii.
+W naszym przypadku przydatne okazało się też polecenie /date/, które posłużyło do nadawania unikalnych nazw kolejnym kopiom zapasowym. Dodatkowo zastosowano /cron-a/, który pozwolił nam na zaplanowanie wykonywania kopii.
 ** Duplicati
-W naszym zestawie rozwiązań jest to najbardziej multiplatformowe i proste do użycia rozwiązanie - jest proste do ustawienia zarówno na Windowsie, Linuxie, jak i macOS. Po zainstalowaniu go możemy zarządzać wszystkimi jego ustawieniami z pomocą interfejsu przeglądarkowego. Jako jedyne niestety nie ma opcji ustawiania z pomocą linii komend, co można rozwiązać z pomocą zewnętrznych pakietów dostępnych np. w =pip=-ie.
+W naszym zestawie rozwiązań jest to najbardziej multiplatformowe i proste do użycia rozwiązanie - jest proste do ustawienia zarówno na Windowsie, Linuxie, jak i macOS. Po zainstalowaniu go możemy zarządzać wszystkimi jego ustawieniami z pomocą interfejsu przeglądarkowego. Jako jedyne niestety nie ma opcji ustawiania z pomocą linii komend, co można rozwiązać z pomocą zewnętrznych pakietów dostępnych np. w /pip/-ie.
 ** Restic
-Rozwiązanie najbardziej rozbudowane, lecz wymagające więcej doświadczenia w konfiguracji. Pozwala na stosunkowo proste skonfigurowanie retencji, połączenia do mniej typowych chmur takich jak S3, lecz nie uruchamia się automatycznie. Do odpowiedniego działania wymagane jest, aby użyć planowania backupów przez CRON lub =systemd-timers=.
+Rozwiązanie najbardziej rozbudowane, lecz wymagające więcej doświadczenia w konfiguracji. Pozwala na stosunkowo proste skonfigurowanie retencji, połączenia do mniej typowych chmur takich jak S3, lecz nie uruchamia się automatycznie. Do odpowiedniego działania wymagane jest, aby użyć planowania backupów przez CRON lub /systemd-timers/.
 * Sposób działania
 ** Rsync + tar
 ** Duplicati
 
 Działający w tle serwis Duplicai sprawdza czy warunki uruchomienia danej konfiguracji zostały spełnione. Jeżeli tak, uruchamiany jest proces wykonujący kopię. W przypadku wystąpienia błędu otrzymujemy powiadomienie o niepowodzeniu. Informacja o tym, kiedy wykonana została odstatnia kopia zapasowa dostępna jest z poziomu interfejsu przeglądarkowego. Jest on dostępny z hosta na porcie 8200.
 
-Format w jakim duplicati tworzy backupy oparty jest na blokach. Oznacza to, że Duplicati nie kopiuje bezpośrednio plików w wybrane miejsce, a dzieli i łączy je w mniejsze bloki stałej długości. Nazwy stworzonych bloków są tworzone tak, aby nie niosły za sobą informacji o dacie stworzenia ani zawartości, dzięki czemu można je bezp przechowywać w chmurze. Informacja o tym jakie pliki znajdują się w danym bloku znajduje się w bazie danych, która zostaje stworzona dla każdej z kopii zapasowych (zarówno lokalnie jak i zdalnie).
+Format w jakim Duplicati tworzy backupy oparty jest na blokach. Oznacza to, że Duplicati nie kopiuje bezpośrednio plików w wybrane miejsce, a dzieli i łączy je w mniejsze bloki stałej długości. Nazwy stworzonych bloków są tworzone tak, aby nie niosły za sobą informacji o dacie stworzenia ani zawartości, dzięki czemu można je bezpiecznie przechowywać w chmurze. Informacja o tym, jakie pliki znajdują się w danym bloku znajduje się w bazie danych, która zostaje stworzona dla każdej z kopii zapasowych (zarówno lokalnie, jak i zdalnie).
 
 #+NAME: Fragment pliku filenames.json zawierającego informacje o przechowywanych plikach
 #+BEGIN_SRC json
@@ -33,21 +33,26 @@ Format w jakim duplicati tworzy backupy oparty jest na blokach. Oznacza to, że 
   "type": "File",
   "path": "C:\\data\\mydoc.txt",
   "size": 4096,
-  "hash": "qaFXpxVTuYCuibb9P41VSeVn4pIaK8o3jUpJKqI4VF4="
+  "hash": "qaFXpxVTuYCuibb9P41VSeVn4pIaK8o3jUpJKqI4VF4/"
   },
   {
   "type": "File",
   "path": "C:\\data\\myvideo.mp4",
   "size": 215040,
-  "hash": "4sGwVN/QuWHD+yVI10qgYa4e2F5M4zXLKBQaf1rtTCs=",
-  "blocklists": [ "Uo1f4rVjNRX10HkxQxXauCrRv0wJOvStqt9gaUT0uPA=" ]
+  "hash": "4sGwVN/QuWHD+yVI10qgYa4e2F5M4zXLKBQaf1rtTCs/",
+  "blocklists": [ "Uo1f4rVjNRX10HkxQxXauCrRv0wJOvStqt9gaUT0uPA/" ]
   }
 ]
 #+END_SRC
 
-Jak duplicati wie, że plik został zmieniony? Oblicza jego =hash= i umieszcza go w nowym pliku filelist.json w celu późniejszego porównania podczas tworzenia kolejnej kopii. Duplicati tworząc blok danych =dblock= dodatkowo dodaje informacje o przechowanych w nich =hash= w bazie =dindex=. [fn:: https://www.duplicati.com/articles/Backup-Process/] Plik filelist.json tworzony jest dla każdej stworzonej kopii, pozwala to na szybkie odtworznie dowolnego stanu plików, ponieważ plik ten zawiera informacje, w których blokach szukać danych wersji pliku.
+Skąd Duplicati wie, że plik został zmieniony? Oblicza jego /hash/ i umieszcza go w nowym pliku filelist.json w celu późniejszego porównania podczas tworzenia kolejnej kopii. Duplicati tworząc blok danych /dblock/ dodatkowo dodaje informacje o przechowanych w nich /hash/ w bazie /dindex/. [fn:: https://www.duplicati.com/articles/Backup-Process/] Plik filelist.json tworzony jest dla każdej stworzonej kopii, pozwala to na szybkie odtworznie dowolnego stanu plików, ponieważ plik ten zawiera informacje, w których blokach szukać danych wersji pliku.
 
-Aby zapewnić dodatkowe bezpieczeństwo Duplicati sugeruje, aby wszystkie dane szyfrować. Aplikacja automatycznie generuje hasło i je zapisuje, a my tak wygenerowaną konfigurację (z zapisanymi hasłami) możemy zapisać w bezpiecznym miejscu (Secure Notes w Bitwarden). Szyfrowanie bloków daje nam pewność, że nawet dostawca usług chmurowych nie będzie w stanie podejrzeć jakie dane przechowyujemy na jego serwerze.
+Aby zapewnić dodatkowe bezpieczeństwo Duplicati sugeruje, aby szyfrować
+wszystkie dane. Aplikacja automatycznie generuje hasło i je zapisuje, a my tak
+wygenerowaną konfigurację (z zapisanymi hasłami) możemy zapisać w bezpiecznym
+miejscu (np. Secure Notes w Bitwarden). Szyfrowanie bloków daje nam pewność, że
+nawet dostawca usług chmurowych nie będzie w stanie podejrzeć jakie dane
+przechowyujemy na jego serwerze.
 
 #+CAPTION: Schemat blokowy procesu tworzenia kopii przez Duplicati
 [[./img/duplicati/duplicati-processing-files-and-folders.png]]
@@ -59,27 +64,26 @@ Aby zapewnić dodatkowe bezpieczeństwo Duplicati sugeruje, aby wszystkie dane s
 
 Duplicati oferuje zarówno gotowe tryby retencji, jak i pozwala na dostosowanie jej. Możemy wybierać spośród następujących trybów:
 
-- =Keep all backups= - żadne dane nie zostają usunięte (utrzymywane są wszystkie wersje plików). Kopia zapasowa będzie rosła z każdą zmianą.
-- =Delete backups that are older than= - usuwa wszystkie kopie plików starsze niż podany czas, o ile znaleziona zostanie co najmniej jedna nowsza wersja danej kopii.
-- =Keep a specific number of backups= - najstarsze kopie ponad podaną ilość są usuwane.
-- =Smart backup retention= - tryb smart, kopie zostają usuwane automatycznie jeżeli będzie ich więcej niż:
+- /Keep all backups/ - żadne dane nie zostają usunięte (utrzymywane są wszystkie wersje plików). Kopia zapasowa będzie rosła z każdą zmianą.
+- /Delete backups that are older than/ - usuwa wszystkie kopie plików starsze niż podany czas, o ile znaleziona zostanie co najmniej jedna nowsza wersja danej kopii.
+- /Keep a specific number of backups/ - najstarsze kopie ponad podaną ilość są usuwane.
+- /Smart backup retention/ - tryb smart, kopie zostają usuwane automatycznie jeżeli będzie ich więcej niż:
     - Po jednej kopii na każdy z ostatnich 7 dni
     - Po jednej kopii na każdy z ostatnich 4 togodnii
     - Po jednej kopii na każdy z ostatnich 12 miesięcy
     - Przy czym zawsze istnieć będzie co najmniej jedna kopia danych
-- =Custom backup retention= - pozwala na ustawienie dowolnej kombinacji w formacie: =NUMER= =CZAS=:=NUMER= =CZAS=. Np. 1W:1D, pozostawia na następne 7 dni jedną kopię z każdego dnia.
+- /Custom backup retention/ - pozwala na ustawienie dowolnej kombinacji w formacie: =NUMER= =CZAS=:=NUMER= =CZAS=. Np. 1W:1D, pozostawia na następne 7 dni jedną kopię z każdego dnia.
 
 ** Restic
 * Typy kopii
 ** Rsync + tar
-** Duplicati
+** Duplicati . .w``
 ** Restic
 * Chmura
 ** Rsync + tar
 ** Duplicati
 
-Duplicati zostało zbudowane z myślą o tworzeniu zadalnych kopii. Wspiera standardowe protokoły FTP, SSH, WebDAV. Ponadto dobrze integruje się z serwisami oferującymi przestrzeń dyskową typu Microfost OneDrive, Google Drive, Mega itp. oraz wspiera serwisy chmurowe: Backblaze B2, Google Cloud Storage, Amazon S3. [fn:: https://www.duplicati.com/] Przykłady integracji z chmurą znajdują się poniżej.
-
+Duplicati zostało zbudowane z myślą o tworzeniu zadalnych kopii. Wspiera standardowe protokoły FTP, SSH i WebDAV. Ponadto dobrze integruje się z serwisami oferującymi przestrzeń dyskową typu Microfost OneDrive, Google Drive, Mega itp. oraz wspiera serwisy chmurowe: Backblaze B2, Google Cloud Storage, Amazon S3. [fn:: https://www.duplicati.com/] Przykłady integracji z chmurą znajdują się poniżej.
 *** Backblaze B2
 
 Integracja z Backblaze B2 jest bardzo prosta, sprowadza się do ustawienia B2 jako miejsca, gdzie będziemy dane przechowywać, stworzeniu bucketa i wprowadzeniu kluczy dostępu do niego. Proces tworzenia klucza i konfiguracji Duplicati został umieszczony poniżej.
@@ -106,7 +110,7 @@ W przypadku Google Cloud Storage wymagania są podobne. Jednak, ponieważ interf
 #+CAPTION: Stworzenie bucketa w Google Cloud Storage
 [[./img/duplicati/google/1.png]]
 
-Następnie należy wejść w link [[https://duplicati-oauth-handler.appspot.com?type=gcs]]. Wtedy po naciśnięciu przycisku (rysunek poniżej), należy się zalogować do konta Google.
+Następnie należy wejść w link [[https://duplicati-oauth-handler.appspot.com?type/gcs]]. Wtedy po naciśnięciu przycisku (rysunek poniżej), należy się zalogować do konta Google.
 
 #+CAPTION: Autoryzacja w GCS
 [[./img/duplicati/google/3.png]]

@@ -33,14 +33,14 @@ Format w jakim Duplicati tworzy backupy oparty jest na blokach. Oznacza to, że 
   "type": "File",
   "path": "C:\\data\\mydoc.txt",
   "size": 4096,
-  "hash": "qaFXpxVTuYCuibb9P41VSeVn4pIaK8o3jUpJKqI4VF4/"
+  "hash": "qaFXpxVTuYCuibb9P41VSeVn4pIaK8o3jUpJKqI4VF4="
   },
   {
   "type": "File",
   "path": "C:\\data\\myvideo.mp4",
   "size": 215040,
-  "hash": "4sGwVN/QuWHD+yVI10qgYa4e2F5M4zXLKBQaf1rtTCs/",
-  "blocklists": [ "Uo1f4rVjNRX10HkxQxXauCrRv0wJOvStqt9gaUT0uPA/" ]
+  "hash": "4sGwVN/QuWHD+yVI10qgYa4e2F5M4zXLKBQaf1rtTCs=",
+  "blocklists": [ "Uo1f4rVjNRX10HkxQxXauCrRv0wJOvStqt9gaUT0uPA=" ]
   }
 ]
 #+END_SRC
@@ -110,7 +110,7 @@ W przypadku Google Cloud Storage wymagania są podobne. Jednak, ponieważ interf
 #+CAPTION: Stworzenie bucketa w Google Cloud Storage
 [[./img/duplicati/google/1.png]]
 
-Następnie należy wejść w link [[https://duplicati-oauth-handler.appspot.com?type/gcs]]. Wtedy po naciśnięciu przycisku (rysunek poniżej), należy się zalogować do konta Google.
+Następnie należy wejść w link [[https://duplicati-oauth-handler.appspot.com?type=gcs]]. Wtedy po naciśnięciu przycisku (rysunek poniżej), należy się zalogować do konta Google.
 
 #+CAPTION: Autoryzacja w GCS
 [[./img/duplicati/google/3.png]]

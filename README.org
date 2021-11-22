@@ -16,6 +16,18 @@ W naszym zestawie rozwiązań jest to najbardziej multiplatformowe i proste do u
 Rozwiązanie najbardziej rozbudowane, lecz wymagające więcej doświadczenia w konfiguracji. Pozwala na stosunkowo proste skonfigurowanie retencji, połączenia do mniej typowych chmur takich jak S3, lecz nie uruchamia się automatycznie. Do odpowiedniego działania wymagane jest, aby użyć planowania backupów przez CRON lub /systemd-timers/.
 * Sposób działania
 ** Rsync + tar
+
+W najprostszej konfiguracji backup możemy wykonać dokonując kompresji danych (z pomocą /tar/), a następnie wysyłając je w dowolne miejsce z /rsync/. Przykładowa konfiguracja znajduje się poniżej:
+
+#+NAME:
+#+BEGIN_SRC shell
+tar cazf /tmp/backup.tar.gz /media && rsync /tmp/backup.tar.gz /mnt/$(date +%s).tar.gz
+#+END_SRC
+
+Uruchomienie powyższego skryptu utworzy tymczasowy plik /backup.tar.gz/, który zostanie umieszczony w katalogo //mnt/. Plik tymczasowy zostanie usunięty po ponownym uruchomieniu komputera, jednak w przypadku uruchamiania go na serwerach w celu oszczędzania miejsca.
+
+Aby odzyskać dane wykonujemy podobne polecenia, lecz w odwrotnej kolejności.
+
 ** Duplicati
 
 Działający w tle serwis Duplicai sprawdza czy warunki uruchomienia danej konfiguracji zostały spełnione. Jeżeli tak, uruchamiany jest proces wykonujący kopię. W przypadku wystąpienia błędu otrzymujemy powiadomienie o niepowodzeniu. Informacja o tym, kiedy wykonana została odstatnia kopia zapasowa dostępna jest z poziomu interfejsu przeglądarkowego. Jest on dostępny z hosta na porcie 8200.

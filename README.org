@@ -72,6 +72,16 @@ przechowyujemy na jego serwerze.
 ** Restic
 * Retencja
 ** Rsync + tar
+
+Ponieważ rsync wyłącznie wysyła pliki do danej lokalizacji, to użytkownik jest odpowiedzialny za zarządzaniem plikami na zdalnym serwerze. Najprostszym sposobem na zarządzaniem nimi jest umieszczenie skryptu, który będzie realizował dwolną politykę retencji. Przykładowy skrypt został opisany poniżej.
+
+#+NAME: Przykład retencji - usuwa kopie starsze niż 30 dni
+#+BEGIN_SRC shell
+find /mnt -name '*tar.gz' -mtime +30 -delete -print
+#+END_SRC
+
+Skrpt ten wyszukuje wszystkie pliki z rozszerzeniem /.tar.gz/ i spośród nich uwuwa te, utworzone wcześniej niż 30 dni temu.
+
 ** Duplicati
 
 Duplicati oferuje zarówno gotowe tryby retencji, jak i pozwala na dostosowanie jej. Możemy wybierać spośród następujących trybów:

@@ -100,7 +100,7 @@ Duplicati oferuje zarówno gotowe tryby retencji, jak i pozwala na dostosowanie 
 * Typy kopii
 ** Rsync + tar
 
-Rsync + tar pozwala wyłącznie na jeden typ kopii - pełne. Z każdym uruchomieniem backupu stworzona zostanie pełna kopia danych. Największą wadą takiego rozwiązania iż będzie on rósł z każdą kopią (nawet jeżeli nie dokonaliśmy żadnych zmian), co może doprowadzić do wyczerpania przestrzeni dyskowej. Zdecydowaną zaletą jest prostota i łatwość przywrócenia kopii - wystarczy przenieść i rozpakować kopię.
+Rsync + tar pozwala wyłącznie na jeden typ kopii - pełne. Z każdym uruchomieniem backupu stworzona zostanie pełna kopia danych. Największą wadą takiego rozwiązania jest to, że będzie on rósł z każdą kopią (nawet jeżeli nie dokonaliśmy żadnych zmian), co może doprowadzić do wyczerpania przestrzeni dyskowej znacznie szybciej od innych opcji. Zdecydowaną zaletą jest prostota i łatwość przywrócenia kopii - wystarczy przenieść i rozpakować kopię.
 
 ** Duplicati
 ** Restic

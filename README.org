@@ -106,6 +106,46 @@ Rsync + tar pozwala wyłącznie na jeden typ kopii - pełne. Z każdym uruchomie
 ** Restic
 * Chmura
 ** Rsync + tar
+
+Rsync nie wspiera umieszczania plików na chmurze. Istnieje jednak alternatywa dla Rsync, właśnie dla rozwiązań chmurowych - RClone [fn:: https://github.com/rclone/rclone]. Pozwala on na synchronizację danych zarówno lokalnie, do chmury, jak i pomiędzy chmurami. Uruchamiając =rclone config= zostaniemy przeprowadzeni przez cały proces konfiguracji kopii zapasowej. Poniżej znajduje się przykład z dokumentacji:
+
+#+CAPTION: Konfiguracja Backblaze B2 w rclone
+#+BEGIN_SRC
+rclone config
+
+No remotes found - make a new one
+n) New remote
+q) Quit config
+n/q> n
+name> remote
+Type of storage to configure.
+Choose a number from below, or type in your own value
+[snip]
+XX / Backblaze B2
+   \ "b2"
+[snip]
+Storage> b2
+Account ID or Application Key ID
+account> 123456789abc
+Application Key
+key> 0123456789abcdef0123456789abcdef0123456789
+Endpoint for the service - leave blank normally.
+endpoint>
+Remote config
+--------------------
+[remote]
+account = 123456789abc
+key = 0123456789abcdef0123456789abcdef0123456789
+endpoint =
+--------------------
+y) Yes this is OK
+e) Edit this remote
+d) Delete this remote
+y/e/d> y
+#+END_SRC
+
+#+RESULTS:
+
 ** Duplicati
 
 Duplicati zostało zbudowane z myślą o tworzeniu zadalnych kopii. Wspiera standardowe protokoły FTP, SSH i WebDAV. Ponadto dobrze integruje się z serwisami oferującymi przestrzeń dyskową typu Microfost OneDrive, Google Drive, Mega itp. oraz wspiera serwisy chmurowe: Backblaze B2, Google Cloud Storage, Amazon S3. [fn:: https://www.duplicati.com/] Przykłady integracji z chmurą znajdują się poniżej.

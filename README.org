@@ -46,6 +46,7 @@ Opisują ile kopii z danego okresu mamy minimalnie trzymać. Dla np. =--keep-dai
 ** Rsync + tar
 ** Duplicati
 ** Restic
+Jedyną opcją w tym wypadku jest kopia pełna podczas inicjalizacji repozytorium, a następnie kopie przyrostowe. Pozwala to na "cofnięcie się w czasie" o niemal dowolne okno, ponieważ mało prawdopodobne jest, że za rok będziemy potrzebowali kopii z dokładnością co do dnia.
 * Chmura
 ** Rsync + tar
 ** Duplicati

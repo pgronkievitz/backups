@@ -68,12 +68,7 @@ Format w jakim Duplicati tworzy backupy oparty jest na blokach. Oznacza to, że 
 
 Skąd Duplicati wie, że plik został zmieniony? Oblicza jego /hash/ i umieszcza go w nowym pliku filelist.json w celu późniejszego porównania podczas tworzenia kolejnej kopii. Duplicati tworząc blok danych /dblock/ dodatkowo dodaje informacje o przechowanych w nich /hash/ w bazie /dindex/. [fn:: https://www.duplicati.com/articles/Backup-Process/] Plik filelist.json tworzony jest dla każdej stworzonej kopii, pozwala to na szybkie odtworznie dowolnego stanu plików, ponieważ plik ten zawiera informacje, w których blokach szukać danych wersji pliku.
 
-Aby zapewnić dodatkowe bezpieczeństwo Duplicati sugeruje, aby szyfrować
-wszystkie dane. Aplikacja automatycznie generuje hasło i je zapisuje, a my tak
-wygenerowaną konfigurację (z zapisanymi hasłami) możemy zapisać w bezpiecznym
-miejscu (np. Secure Notes w Bitwarden). Szyfrowanie bloków daje nam pewność, że
-nawet dostawca usług chmurowych nie będzie w stanie podejrzeć jakie dane
-przechowyujemy na jego serwerze.
+Aby zapewnić dodatkowe bezpieczeństwo Duplicati sugeruje, aby szyfrować wszystkie dane. Aplikacja automatycznie generuje hasło i je zapisuje, a my tak wygenerowaną konfigurację (z zapisanymi hasłami) możemy zapisać w bezpiecznym miejscu (np. Secure Notes w Bitwarden). Szyfrowanie bloków daje nam pewność, że nawet dostawca usług chmurowych nie będzie w stanie podejrzeć jakie dane przechowyujemy na jego serwerze.
 
 #+CAPTION: Schemat blokowy procesu tworzenia kopii przez Duplicati
 [[./img/duplicati/duplicati-processing-files-and-folders.png]]

@@ -13,7 +13,16 @@ W naszym przypadku przydatne okazało się też polecenie /date/, które posłu�
 ** Duplicati
 W naszym zestawie rozwiązań jest to najbardziej multiplatformowe i proste do użycia rozwiązanie - jest proste do ustawienia zarówno na Windowsie, Linuxie, jak i macOS. Po zainstalowaniu go możemy zarządzać wszystkimi jego ustawieniami z pomocą interfejsu przeglądarkowego. Jako jedyne niestety nie ma opcji ustawiania z pomocą linii komend, co można rozwiązać z pomocą zewnętrznych pakietów dostępnych np. w /pip/-ie.
 ** Restic
-Rozwiązanie najbardziej rozbudowane, lecz wymagające więcej doświadczenia w konfiguracji. Pozwala na stosunkowo proste skonfigurowanie retencji, połączenia do mniej typowych chmur takich jak S3, lecz nie uruchamia się automatycznie. Do odpowiedniego działania wymagane jest, aby użyć planowania backupów przez CRON lub /systemd-timers/.
+Rozwiązanie najbardziej rozbudowane, lecz wymagające więcej doświadczenia w konfiguracji. Pozwala na stosunkowo proste skonfigurowanie retencji, połączenia do mniej typowych chmur takich jak S3, lecz nie uruchamia się automatycznie. Do odpowiedniego działania wymagane jest, aby użyć planowania backupów przez CRON lub =systemd-timers=.
+
+Twórcy twierdzą, że jest:
++ prosty w obsłudze
++ Efektywny
++ Bezpieczny
++ Weryfikowalny
++ Wolny jak w wolności[fn:freedom]
+[fn:freedom] (en. /Free as in freedom/ - Richard Matthew Stallman) - dotyczy wolnościowego podejścia do oprogramowania
+
 * Sposób działania
 ** Rsync + tar
 
@@ -70,6 +79,11 @@ przechowyujemy na jego serwerze.
 [[./img/duplicati/duplicati-processing-files-and-folders.png]]
 
 ** Restic
+Restic działa na zasadzie kopii przyrostowych - dzięki temu jest zdolny do tworzenia stosunkowo małych kopii nawet przy dużych ilościach danych. Pozwala także na łatwe przywrócenie kopii przez interfejs terminala. Jego działanie jest analogiczne do podmontowania np. pendrive.
+
+Kopie zapasowe prowadzone przez Restica można bardzo prosto zaszyfrować, jak i wysyłać na różne rodzaje pamięci sieciowych - od S3, przez SSHFS i WebDav aż po rozwiązania typowo konsumenckie jak Google Drive, Mega czy OneDrive. W przypadku części integracji wymagane jest użycie Rclone, który jest interfejsem do połączenia się z daną chmurą. Bez najmniejszego problemu jest także dostępny backup lokalny, który tworzony jest w niemal identyczny sposób jak ten chmurowy.
+
+Każda kopia zapasowa ma swoje repozytorium - miejsce, gdzie pliki odpowiadające za kopię są trzymane. Jest to miejsce, którego nie chcemy stracić (ale i tak prawdopowodobnie mamy inny backup, jeśli trzymamy się zasad 😉).
 * Retencja
 ** Rsync + tar
 
@@ -97,6 +111,12 @@ Duplicati oferuje zarówno gotowe tryby retencji, jak i pozwala na dostosowanie 
 - /Custom backup retention/ - pozwala na ustawienie dowolnej kombinacji w formacie: =NUMER= =CZAS=:=NUMER= =CZAS=. Np. 1W:1D, pozostawia na następne 7 dni jedną kopię z każdego dnia.
 
 ** Restic
+Retencję w Resticu można bardzo łatwo skonfigurować. Standardowo parametry do niej są podawane podczas wywołania komendy. Tymi argumentami są:
++ =--keep-daily n=
++ =--keep-weekly n=
++ =--keep-monthly n=
++ =--keep-yearly n=
+Opisują ile kopii z danego okresu mamy minimalnie trzymać. Dla np. =--keep-daily 3= będziemy zawsze mieli ostatnie 3 kopie z danego dnia. Jeśli np. w środę zrobimy cztery kopie numerowane chronologicznie od najstarszych - $A$, $B$, $C$ i $D$ - przy takim ustawieniu będziemy mieli dostęp tylko do kopii $B$, $C$ i $D$. Analogicznie działa to dla pozostałych argumentów, które możemy dodać przy wywołaniu funkcji.
 * Typy kopii
 ** Rsync + tar
 
@@ -104,6 +124,7 @@ Rsync + tar pozwala wyłącznie na jeden typ kopii - pełne. Z każdym uruchomie
 
 ** Duplicati
 ** Restic
+Jedyną opcją w tym wypadku jest kopia pełna podczas inicjalizacji repozytorium, a następnie kopie przyrostowe. Pozwala to na "cofnięcie się w czasie" o niemal dowolne okno, ponieważ mało prawdopodobne jest, że za rok będziemy potrzebowali kopii z dokładnością co do dnia.
 * Chmura
 ** Rsync + tar
 
@@ -184,3 +205,12 @@ Po autozyzacji uzyskany AuthId wpisujemy jak na obrazku poniżej.
 [[./img/duplicati/google/4.png]]
 
 ** Restic
+Restic ma bardzo rozbudowaną integrację z chmurą - zarówno bezpośrednią, jak i z pomocą narzędzi takich jak rclone. Najprościej integruje się z /object storage/[fn:object_storage]. Są to chmury nakierowane na trzymanie wielu małych plików.
+[fn:object_storage] - przestrzeń obiektowa, pozwala na proste trzymanie wielu małych plików i jest właśnie w tym celu zoptymalizowane. ,,Klasyczne'' chmury, które bezpośrednio udostępniają dysk nazywane są /block storage/.
+
+Autorzy chwalą się natywnym wsparciem dla kilkunastu różnych chmur, które można podzielić na trzy różne kategorie:
+1. Backup lokalny - działa na dysku podłączonym do komputera
+2. Backup do block storage - Autorzy dostarczają obsługę protokołu SFTP (/SSH File Transfer Protocol/), a także własny serwer obsługujący HTTP(S).
+3. Backup do object storage - wspierane jest wiele najbardziej popularnych chmur takich jak AWS S3, Backblaze B2, Azure Blob Storage, Wasabi, a także opcje selfhosted w postaci Minio i OpenStack Swift.
+
+Dodatkowe opcje dostarcza Rclone, który pozwala zamontować nam ponad 50 różnych chmur, a co za tym idzie istotnie rozszerzyć funkcjonalność naszego rozwiązania. Dzięki ścisłej integracji nie ma potrzeby podmontowywania danej chmury pod folder, co działa na naszą korzyść ze względu na jeszcze lepsze zabezpieczenie przed Ransomware.

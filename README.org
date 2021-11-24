@@ -21,7 +21,7 @@ Twórcy twierdzą, że jest:
 + Bezpieczny
 + Weryfikowalny
 + Wolny jak w wolności[fn:freedom]
-[fn:freedom] (en. /Free as in freedom/) - dotyczy wolnościowego podejścia do oprogramowania
+[fn:freedom] (en. /Free as in freedom/ - Richard Matthew Stallman) - dotyczy wolnościowego podejścia do oprogramowania
 
 * Sposób działania
 ** Rsync + tar

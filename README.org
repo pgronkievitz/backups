@@ -43,7 +43,7 @@ Działający w tle serwis Duplicai sprawdza czy warunki uruchomienia danej konfi
 
 Format w jakim Duplicati tworzy backupy oparty jest na blokach. Oznacza to, że Duplicati nie kopiuje bezpośrednio plików w wybrane miejsce, a dzieli i łączy je w mniejsze bloki stałej długości. Nazwy stworzonych bloków są tworzone tak, aby nie niosły za sobą informacji o dacie stworzenia ani zawartości, dzięki czemu można je bezpiecznie przechowywać w chmurze. Informacja o tym, jakie pliki znajdują się w danym bloku znajduje się w bazie danych, która zostaje stworzona dla każdej z kopii zapasowych (zarówno lokalnie, jak i zdalnie).
 
-#+NAME: Fragment pliku filenames.json zawierającego informacje o przechowywanych plikach
+#+CAPTION: Fragment pliku filenames.json zawierającego informacje o przechowywanych plikach
 #+BEGIN_SRC json
 [
   {
@@ -89,7 +89,7 @@ Każda kopia zapasowa ma swoje repozytorium - miejsce, gdzie pliki odpowiadając
 
 Ponieważ rsync wyłącznie wysyła pliki do danej lokalizacji, to użytkownik jest odpowiedzialny za zarządzaniem plikami na zdalnym serwerze. Najprostszym sposobem na zarządzaniem nimi jest umieszczenie skryptu, który będzie realizował dwolną politykę retencji. Przykładowy skrypt został opisany poniżej.
 
-#+NAME: Przykład retencji - usuwa kopie starsze niż 30 dni
+#+CAPTION: Przykład retencji - usuwa kopie starsze niż 30 dni
 #+BEGIN_SRC shell
 find /mnt -name '*tar.gz' -mtime +30 -delete -print
 #+END_SRC

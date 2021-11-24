@@ -206,7 +206,6 @@ Po autozyzacji uzyskany AuthId wpisujemy jak na obrazku poniżej.
 
 ** Restic
 Restic ma bardzo rozbudowaną integrację z chmurą - zarówno bezpośrednią, jak i z pomocą narzędzi takich jak rclone. Najprościej integruje się z /object storage/[fn:object_storage]. Są to chmury nakierowane na trzymanie wielu małych plików.
-[fn:object_storage] - przestrzeń obiektowa, pozwala na proste trzymanie wielu małych plików i jest właśnie w tym celu zoptymalizowane. ,,Klasyczne'' chmury, które bezpośrednio udostępniają dysk nazywane są /block storage/.
 
 Autorzy chwalą się natywnym wsparciem dla kilkunastu różnych chmur, które można podzielić na trzy różne kategorie:
 1. Backup lokalny - działa na dysku podłączonym do komputera
@@ -214,3 +213,5 @@ Autorzy chwalą się natywnym wsparciem dla kilkunastu różnych chmur, które m
 3. Backup do object storage - wspierane jest wiele najbardziej popularnych chmur takich jak AWS S3, Backblaze B2, Azure Blob Storage, Wasabi, a także opcje selfhosted w postaci Minio i OpenStack Swift.
 
 Dodatkowe opcje dostarcza Rclone, który pozwala zamontować nam ponad 50 różnych chmur, a co za tym idzie istotnie rozszerzyć funkcjonalność naszego rozwiązania. Dzięki ścisłej integracji nie ma potrzeby podmontowywania danej chmury pod folder, co działa na naszą korzyść ze względu na jeszcze lepsze zabezpieczenie przed Ransomware.
+
+[fn:object_storage] - przestrzeń obiektowa, pozwala na proste trzymanie wielu małych plików i jest właśnie w tym celu zoptymalizowane. ,,Klasyczne'' chmury, które bezpośrednio udostępniają dysk nazywane są /block storage/.

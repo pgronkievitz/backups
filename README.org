@@ -107,7 +107,7 @@ Rsync + tar pozwala wyłącznie na jeden typ kopii - pełne. Z każdym uruchomie
 * Chmura
 ** Rsync + tar
 
-Rsync nie wspiera umieszczania plików na chmurze. Istnieje jednak alternatywa dla Rsync, właśnie dla rozwiązań chmurowych - RClone [fn:: https://github.com/rclone/rclone]. Pozwala on na synchronizację danych zarówno lokalnie, do chmury, jak i pomiędzy chmurami. Uruchamiając =rclone config= zostaniemy przeprowadzeni przez cały proces konfiguracji kopii zapasowej. Poniżej znajduje się przykład z dokumentacji:
+Rsync nie wspiera umieszczania plików na chmurze, ponieważ wykorzystuje ssh do kopiowania plików do zdalnych katalogów (czego chmury nie wspierają). Istnieje jednak alternatywa, właśnie dla rozwiązań chmurowych - RClone [fn:: https://github.com/rclone/rclone]. Pozwala on na synchronizację danych z chmurą, a także zamontowanie chmury jako katalogu. Uruchamiając =rclone config= zostaniemy przeprowadzeni przez proces konfiguracji nowej chmury, którą później możemy wykorzystać do stworzenia kopii. Poniżej znajduje się przykład z dokumentacji:
 
 #+CAPTION: Konfiguracja Backblaze B2 w rclone
 #+BEGIN_SRC text

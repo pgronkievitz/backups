@@ -36,6 +36,12 @@ Każda kopia zapasowa ma swoje repozytorium - miejsce, gdzie pliki odpowiadając
 ** Rsync + tar
 ** Duplicati
 ** Restic
+Retencję w Resticu można bardzo łatwo skonfigurować. Standardowo parametry do niej są podawane podczas wywołania komendy. Tymi argumentami są:
++ =--keep-daily n=
++ =--keep-weekly n=
++ =--keep-monthly n=
++ =--keep-yearly n=
+Opisują ile kopii z danego okresu mamy minimalnie trzymać. Dla np. =--keep-daily 3= będziemy zawsze mieli ostatnie 3 kopie z danego dnia. Jeśli np. w środę zrobimy cztery kopie numerowane chronologicznie od najstarszych - $A$, $B$, $C$ i $D$ - przy takim ustawieniu będziemy mieli dostęp tylko do kopii $B$, $C$ i $D$. Analogicznie działa to dla pozostałych argumentów, które możemy dodać przy wywołaniu funkcji.
 * Typy kopii
 ** Rsync + tar
 ** Duplicati

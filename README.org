@@ -27,6 +27,11 @@ Twórcy twierdzą, że jest:
 ** Rsync + tar
 ** Duplicati
 ** Restic
+Restic działa na zasadzie kopii przyrostowych - dzięki temu jest zdolny do tworzenia stosunkowo małych kopii nawet przy dużych ilościach danych. Pozwala także na łatwe przywrócenie kopii przez interfejs terminala. Jego działanie jest analogiczne do podmontowania np. pendrive.
+
+Kopie zapasowe prowadzone przez Restica można bardzo prosto zaszyfrować, jak i wysyłać na różne rodzaje pamięci sieciowych - od S3, przez SSHFS i WebDav aż po rozwiązania typowo konsumenckie jak Google Drive, Mega czy OneDrive. W przypadku części integracji wymagane jest użycie Rclone, który jest interfejsem do połączenia się z daną chmurą. Bez najmniejszego problemu jest także dostępny backup lokalny, który tworzony jest w niemal identyczny sposób jak ten chmurowy.
+
+Każda kopia zapasowa ma swoje repozytorium - miejsce, gdzie pliki odpowiadające za kopię są trzymane. Jest to miejsce, którego nie chcemy stracić (ale i tak prawdopowodobnie mamy inny backup, jeśli trzymamy się zasad 😉).
 * Retencja
 ** Rsync + tar
 ** Duplicati

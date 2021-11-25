@@ -118,6 +118,9 @@ Opisują ile kopii z danego okresu mamy minimalnie trzymać. Dla np. =--keep-dai
 Rsync + tar pozwala wyłącznie na jeden typ kopii - pełne. Z każdym uruchomieniem backupu stworzona zostanie pełna kopia danych. Największą wadą takiego rozwiązania jest to, że będzie on rósł z każdą kopią (nawet jeżeli nie dokonaliśmy żadnych zmian), co może doprowadzić do wyczerpania przestrzeni dyskowej znacznie szybciej od innych opcji. Zdecydowaną zaletą jest prostota i łatwość przywrócenia kopii - wystarczy przenieść i rozpakować kopię.
 
 ** Duplicati
+
+Duplicati tworzy wyłącznie kopie przyrostowe, wzamian jednak wspiera szyfrowanie danych, kompresję oraz deduplikację [fn:: https://www.duplicati.com/articles/Backup-Process/]. Dzięki deduplikacji po zmianie części plików, ich niezmienione cześci nie są przechowywane w nowych blokach danych i tym samym oszczędzamy miejsce.
+
 ** Restic
 Jedyną opcją w tym wypadku jest kopia pełna podczas inicjalizacji repozytorium, a następnie kopie przyrostowe. Pozwala to na ,,cofnięcie się w czasie'' o niemal dowolne okno, ponieważ mało prawdopodobne jest, że za rok będziemy potrzebowali kopii z dokładnością co do dnia.
 * Chmura

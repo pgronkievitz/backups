@@ -218,3 +218,25 @@ Autorzy chwalą się natywnym wsparciem dla kilkunastu różnych chmur, które m
 Dodatkowe opcje dostarcza Rclone, który pozwala zamontować nam ponad 50 różnych chmur, a co za tym idzie istotnie rozszerzyć funkcjonalność naszego rozwiązania. Dzięki ścisłej integracji nie ma potrzeby podmontowywania danej chmury pod folder, co działa na naszą korzyść ze względu na jeszcze lepsze zabezpieczenie przed Ransomware.
 
 [fn:object_storage] - przestrzeń obiektowa, pozwala na proste trzymanie wielu małych plików i jest właśnie w tym celu zoptymalizowane. ,,Klasyczne'' chmury, które bezpośrednio udostępniają dysk nazywane są /block storage/.
+*** Backblaze B2
+:PROPERTIES:
+:CUSTOM_ID: restic-b2
+:END:
+Integracja z Backblaze B2 jest stosunkowo prosta. Wymaga stworzenia Bucketa, dokładnie tak, jak w przypadku [[#duplicati-b2][Duplicati]], z tego względu nie będziemy powtarzać części tworzenia bucketa. W następnym kroku, zamiast bezpośrednio podawać wartości w programie, należy ustawić zmienne środowiskowe.
+#+begin_src bash :eval never
+B2_ACCOUNT_ID=<MY_APPLICATION_KEY_ID>
+B2_ACCOUNT_KEY=<MY_APPLICATION_KEY>
+#+end_src
+
+Następnym krokiem jest wywołanie komendy restic, gdzie kolejno wpisujemy:
++ ~bucketname~ - nazwa bucketa jaką podaliśmy przy tworzeniu go;
++ =/path/to/repo= - lokalizacja do repozytorium. W większości przypadków będzie to po prostu =/=, ponieważ zwykle w jednym bucketcie chcemy przechowywać jeden backup.
+
+#+begin_src bash
+restic -r b2:bucketname:/path/to/repo init
+#+end_src
+
+Kopię zapasową tworzymy następującą komendą ze składnią identyczną jak wyżej. Jedynym nowym elementem jest ścieżka do danych, których kopię chcemy stworzyć.
+#+begin_src bash
+restic -r b2:bucketname:/path/to/repo backup /path/to/backed/up/data
+#+end_src

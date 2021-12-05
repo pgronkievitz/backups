@@ -258,3 +258,12 @@ restic -r gs:bucketname:/path/to/repo init
 #+end_src
 
 Tworzenie kopii zapasowej nie różni się od tej, dla Backblaze B2.
+*** Dodatkowe zalecenia
+Warto dodać komendę tworzącą kopię danych do np. ~CRON~-a, ze względu na brak konieczności obsługi takiej kopii w późniejszym czasie. Można to zrobić wykonując następującą komendę.
+#+begin_src bash
+crontab -e
+#+end_src
+A następnie należy podać odpowiednią linijkę z dobrze dobranym terminarzem. Podany w przykładzie uruchamia się co drugą pełną godzinę.
+#+begin_src cron
+0 */2 * * * restic -r b2:bucketname:/path/to/repo backup /path/to/backed/up/data
+#+end_src

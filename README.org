@@ -4,6 +4,9 @@
 #+EMAIL: 164157@stud.prz.edu.pl, 164165@stud.prz.edu.pl
 #+OPTIONS: toc:nil
 #+LANGUAGE: pl
+#+LATEX_HEADER_EXTRA: \usepackage{pifont}
+#+LATEX_HEADER_EXTRA: \newcommand\cmark{\ding{51}}
+#+LATEX_HEADER_EXTRA: \newcommand\xmark{\ding{55}}
 
 * Wybrane programy
 ** Rsync + tar
@@ -218,3 +221,22 @@ Dodatkowe opcje dostarcza Rclone, który pozwala zamontować nam ponad 50 różn
 * Podsumowanie
 
 Pomimo wielu różnic między systemami do backupów, są bardzo zbliżone do siebie. Porównanie sprawdzonych programów znajduje się w tabeli [[tbl:comparison]]. Wynika z niej, że ~tar~ i ~rsync~ pomimo bycia najprostszymi w użyciu teoretycznie nie są opcją najlepszą, przede wszystkim ze względu na konieczność znajomości tych komend, a dodatkowo ~CRON~-a lub innych narzędzi do planowania zadań. Restic jest opcją najlepszą w przypadku serwerów ze względu na prostotę konfiguracji bez dostępu do interfejsu graficznego, natomiast dla ,,przeciętnego'' użytkownika komputera najlepszym rozwiązaniem jest Duplicati ze względu na przejrzysty interfejs, prostą konfigurację możliwą do ,,wyklikania'' oraz wyświetlanie w tacce systemowej wszystkich błędów i ostrzeżeń.
+
+#+CAPTION: Podsumowanie funkcjonalności programów
+#+NAME: tbl:comparison
+#+ATTR_LATEX: :align l|ccc
+| Funkcja              | ~tar~ + ~rsync~               | Duplicati           | Restic  |
+|----------------------+-------------------------------+---------------------+---------|
+| Backup pełny         | \cmark                        | \cmark              | \cmark  |
+| Backup przyrostowy   | \xmark                        | \cmark              | \cmark  |
+| Backup różnicowy     | \xmark                        | \xmark              | \xmark  |
+|----------------------+-------------------------------+---------------------+---------|
+| Integracja z chmurą  | Tylko SFTP/FTP/FTPS lub       | Bardzo prosta       | Prosta  |
+|                      | bezpośredni dostęp do serwera |                     |         |
+| Łatwość konfiguracji | Bardzo prosta                 | Bardzo prosta       | Średnia |
+| Interfejs graficzny  | \xmark                        | \cmark              | \xmark  |
+| Interfejs konsolowy  | \cmark                        | \cmark/\xmark       | \cmark  |
+|                      |                               | (dodatkowe pakiety) |         |
+|----------------------+-------------------------------+---------------------+---------|
+| Ustawienia retencji  | Konieczne ręczne ustawienie   | \cmark              | \cmark  |
+|                      | i dodatkowe skrypty           |                     |         |

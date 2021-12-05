@@ -167,6 +167,9 @@ y/e/d> y
 
 Duplicati zostało zbudowane z myślą o tworzeniu zadalnych kopii. Wspiera standardowe protokoły FTP, SSH i WebDAV. Ponadto dobrze integruje się z serwisami oferującymi przestrzeń dyskową typu Microfost OneDrive, Google Drive, Mega itp. oraz wspiera serwisy chmurowe: Backblaze B2, Google Cloud Storage, Amazon S3[fn:: https://www.duplicati.com/]. Przykłady integracji z chmurą znajdują się poniżej.
 *** Backblaze B2
+:PROPERTIES:
+:CUSTOM_ID: duplicati-b2
+:END:
 
 Integracja z Backblaze B2 jest bardzo prosta, sprowadza się do ustawienia B2 jako miejsca, gdzie będziemy dane przechowywać, stworzeniu bucketa i wprowadzeniu kluczy dostępu do niego. Proces tworzenia klucza i konfiguracji Duplicati został umieszczony poniżej.
 

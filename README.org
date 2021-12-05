@@ -240,3 +240,21 @@ Kopię zapasową tworzymy następującą komendą ze składnią identyczną jak 
 #+begin_src bash
 restic -r b2:bucketname:/path/to/repo backup /path/to/backed/up/data
 #+end_src
+*** Google Cloud Storage
+W tym przypadku działa to analogicznie jak w [[#restic-b2][Backblaze B2]]. Musimy wygenerować odpowiednie klucze, co możemy zrobić dwojako:
+1. Do konkretnego projektu pobrać sekrety w formacie JSON - wtedy ustawiamy ID projektu oraz lokalizację sekretów
+   #+begin_src bash
+GOOGLE_PROJECT_ID=123123123123
+GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gs-secret-restic-key.json
+   #+end_src
+2. Podając ogólny token dostępowy
+   #+begin_src bash
+GOOGLE_ACCESS_TOKEN=ya29.a0AfH6SMC78...
+   #+end_src
+
+Po tym etapie znowu inicjalizujemy repozytorium, dokładnie jak w przypadku Backblaze B2. Jedyną różnicą jest prefix =gs= zamiast =b2=.
+#+begin_src bash
+restic -r gs:bucketname:/path/to/repo init
+#+end_src
+
+Tworzenie kopii zapasowej nie różni się od tej, dla Backblaze B2.

@@ -10,11 +10,11 @@
 
 * Wybrane programy
 ** Rsync + tar
-Jest to najprostsza opcja dostępna na praktycznie każdym urządzeniu z Linuxem. Rozwiązanie to składa się w rzeczywistości z dwóch programów - /rsync/ oraz /tar/. Pierwszy z nich służy do kopiowania plików lokalnie oraz na serwery zdalne, natomiast drugi generuje pojedynczy plik z naszego backupu. /tar/ pozwala także na zmniejszenie rozmiaru kopii dzięki wykorzystaniu kompresji.
+Jest to najprostsza opcja dostępna na praktycznie każdym urządzeniu z Linuxem. Rozwiązanie to składa się w rzeczywistości z dwóch programów - =rsync= oraz =tar=. Pierwszy z nich służy do kopiowania plików lokalnie oraz na serwery zdalne, natomiast drugi generuje pojedynczy plik z naszego backupu. =tar= pozwala także na zmniejszenie rozmiaru kopii dzięki wykorzystaniu kompresji.
 
-W naszym przypadku przydatne okazało się też polecenie /date/, które posłużyło do nadawania unikalnych nazw kolejnym kopiom zapasowym. Dodatkowo zastosowano /cron-a/, który pozwolił nam na zaplanowanie wykonywania kopii.
+W naszym przypadku przydatne okazało się też polecenie =date=, które posłużyło do nadawania unikalnych nazw kolejnym kopiom zapasowym. Dodatkowo zastosowano =cron-a=, który pozwolił nam na zaplanowanie wykonywania kopii.
 ** Duplicati
-W naszym zestawie rozwiązań jest to najbardziej multiplatformowe i proste do użycia rozwiązanie - jest proste do ustawienia zarówno na Windowsie, Linuxie, jak i macOS. Po zainstalowaniu go możemy zarządzać wszystkimi jego ustawieniami z pomocą interfejsu przeglądarkowego. Jako jedyne niestety nie ma opcji ustawiania z pomocą linii komend, co można rozwiązać z pomocą zewnętrznych pakietów dostępnych np. w /pip/-ie.
+W naszym zestawie rozwiązań jest to najbardziej multiplatformowe i proste do użycia rozwiązanie - jest proste do ustawienia zarówno na Windowsie, Linuxie, jak i macOS. Po zainstalowaniu go możemy zarządzać wszystkimi jego ustawieniami z pomocą interfejsu przeglądarkowego. Jako jedyne niestety nie ma opcji ustawiania z pomocą linii komend, co można rozwiązać z pomocą zewnętrznych pakietów dostępnych np. w =pip=-ie.
 ** Restic
 Rozwiązanie najbardziej rozbudowane, lecz wymagające więcej doświadczenia w konfiguracji. Pozwala na stosunkowo proste skonfigurowanie retencji, połączenia do mniej typowych chmur takich jak S3, lecz nie uruchamia się automatycznie. Do odpowiedniego działania wymagane jest, aby użyć planowania backupów przez CRON lub =systemd-timers=.
 
@@ -29,7 +29,7 @@ Twórcy twierdzą, że jest:
 * Sposób działania
 ** Rsync + tar
 
-W najprostszej konfiguracji backup możemy wykonać dokonując kompresji danych (z pomocą /tar/), a następnie wysyłając je w dowolne miejsce z /rsync/. Przykładowa konfiguracja znajduje się poniżej:
+W najprostszej konfiguracji backup możemy wykonać dokonując kompresji danych (z pomocą =tar=), a następnie wysyłając je w dowolne miejsce z =rsync=. Przykładowa konfiguracja znajduje się poniżej:
 
 #+NAME:
 #+BEGIN_SRC shell
@@ -69,7 +69,7 @@ Format w jakim Duplicati tworzy backupy oparty jest na blokach. Oznacza to, że 
 ]
 #+END_SRC
 
-Skąd Duplicati wie, że plik został zmieniony? Oblicza jego /hash/ i umieszcza go w nowym pliku filelist.json w celu późniejszego porównania podczas tworzenia kolejnej kopii. Duplicati tworząc blok danych /dblock/ dodatkowo dodaje informacje o przechowanych w nich /hash/ w bazie /dindex/. [fn:: https://www.duplicati.com/articles/Backup-Process/] Plik filelist.json tworzony jest dla każdej stworzonej kopii, pozwala to na szybkie odtworznie dowolnego stanu plików, ponieważ plik ten zawiera informacje, w których blokach szukać danych wersji pliku.
+Skąd Duplicati wie, że plik został zmieniony? Oblicza jego ~hash~ i umieszcza go w nowym pliku filelist.json w celu późniejszego porównania podczas tworzenia kolejnej kopii. Duplicati tworząc blok danych ~dblock~ dodatkowo dodaje informacje o przechowanych w nich ~hash~ w bazie ~dindex~. [fn:: https://www.duplicati.com/articles/Backup-Process/] Plik ~filelist.json~ tworzony jest dla każdej stworzonej kopii, pozwala to na szybkie odtworznie dowolnego stanu plików, ponieważ plik ten zawiera informacje, w których blokach szukać danych wersji pliku.
 
 Aby zapewnić dodatkowe bezpieczeństwo Duplicati sugeruje, aby szyfrować wszystkie dane. Aplikacja automatycznie generuje hasło i je zapisuje, a my tak wygenerowaną konfigurację (z zapisanymi hasłami) możemy zapisać w bezpiecznym miejscu (np. Secure Notes w Bitwarden). Szyfrowanie bloków daje nam pewność, że nawet dostawca usług chmurowych nie będzie w stanie podejrzeć jakie dane przechowyujemy na jego serwerze.
 
@@ -81,7 +81,7 @@ Restic działa na zasadzie kopii przyrostowych - dzięki temu jest zdolny do two
 
 Kopie zapasowe prowadzone przez Restica można bardzo prosto zaszyfrować, jak i wysyłać na różne rodzaje pamięci sieciowych - od S3, przez SSHFS i WebDav aż po rozwiązania typowo konsumenckie jak Google Drive, Mega czy OneDrive. W przypadku części integracji wymagane jest użycie Rclone, który jest interfejsem do połączenia się z daną chmurą. Bez najmniejszego problemu jest także dostępny backup lokalny, który tworzony jest w niemal identyczny sposób jak ten chmurowy.
 
-Każda kopia zapasowa ma swoje repozytorium - miejsce, gdzie pliki odpowiadające za kopię są trzymane. Jest to miejsce, którego nie chcemy stracić (ale i tak prawdopowodobnie mamy inny backup, jeśli trzymamy się zasad 😉).
+Każda kopia zapasowa ma swoje repozytorium - miejsce, gdzie pliki odpowiadające za kopię są trzymane. Jest to miejsce, którego nie chcemy stracić (ale i tak prawdopowodobnie mamy inny backup, jeśli trzymamy się zasad).
 * Retencja
 ** Rsync + tar
 
@@ -106,7 +106,7 @@ Duplicati oferuje zarówno gotowe tryby retencji, jak i pozwala na dostosowanie 
     - Po jednej kopii na każdy z ostatnich 4 togodnii
     - Po jednej kopii na każdy z ostatnich 12 miesięcy
     - Przy czym zawsze istnieć będzie co najmniej jedna kopia danych
-- /Custom backup retention/ - pozwala na ustawienie dowolnej kombinacji w formacie: =NUMER= =CZAS=:=NUMER= =CZAS=. Np. 1W:1D, pozostawia na następne 7 dni jedną kopię z każdego dnia.
+- /Custom backup retention/ - pozwala na ustawienie dowolnej kombinacji w formacie: =NUMER CZAS:NUMER CZAS=. Np. 1W:1D, pozostawia na następne 7 dni jedną kopię z każdego dnia.
 
 ** Restic
 Retencję w Resticu można bardzo łatwo skonfigurować. Standardowo parametry do niej są podawane podczas wywołania komendy. Tymi argumentami są:
@@ -122,14 +122,14 @@ Rsync + tar pozwala wyłącznie na jeden typ kopii - pełne. Z każdym uruchomie
 
 ** Duplicati
 
-Duplicati tworzy wyłącznie kopie przyrostowe, wzamian jednak wspiera szyfrowanie danych, kompresję oraz deduplikację [fn:: https://www.duplicati.com/articles/Backup-Process/]. Dzięki deduplikacji po zmianie części plików, ich niezmienione cześci nie są przechowywane w nowych blokach danych i tym samym oszczędzamy miejsce.
+Duplicati tworzy wyłącznie kopie przyrostowe, wzamian jednak wspiera szyfrowanie danych, kompresję oraz deduplikację [fn::https://www.duplicati.com/articles/Backup-Process/]. Dzięki deduplikacji po zmianie części plików, ich niezmienione cześci nie są przechowywane w nowych blokach danych i tym samym oszczędzamy miejsce.
 
 ** Restic
 Jedyną opcją w tym wypadku jest kopia pełna podczas inicjalizacji repozytorium, a następnie kopie przyrostowe. Pozwala to na ,,cofnięcie się w czasie'' o niemal dowolne okno, ponieważ mało prawdopodobne jest, że za rok będziemy potrzebowali kopii z dokładnością co do dnia.
 * Chmura
 ** Rsync + tar
 
-Rsync nie wspiera umieszczania plików na chmurze, ponieważ wykorzystuje ssh do kopiowania plików do zdalnych katalogów (czego chmury nie wspierają). Istnieje jednak alternatywa, właśnie dla rozwiązań chmurowych - RClone [fn:: https://github.com/rclone/rclone]. Pozwala on na synchronizację danych z chmurą, a także zamontowanie chmury jako katalogu. Uruchamiając =rclone config= zostaniemy przeprowadzeni przez proces konfiguracji nowej chmury, którą później możemy wykorzystać do stworzenia kopii. Poniżej znajduje się przykład z dokumentacji:
+Rsync nie wspiera umieszczania plików na chmurze, ponieważ wykorzystuje ssh do kopiowania plików do zdalnych katalogów (czego chmury nie wspierają). Istnieje jednak alternatywa, właśnie dla rozwiązań chmurowych - RClone [fn::https://github.com/rclone/rclone]. Pozwala on na synchronizację danych z chmurą, a także zamontowanie chmury jako katalogu. Uruchamiając =rclone config= zostaniemy przeprowadzeni przez proces konfiguracji nowej chmury, którą później możemy wykorzystać do stworzenia kopii. Poniżej znajduje się przykład z dokumentacji:
 
 #+CAPTION: Konfiguracja Backblaze B2 w rclone
 #+BEGIN_SRC text
@@ -168,7 +168,7 @@ y/e/d> y
 
 ** Duplicati
 
-Duplicati zostało zbudowane z myślą o tworzeniu zadalnych kopii. Wspiera standardowe protokoły FTP, SSH i WebDAV. Ponadto dobrze integruje się z serwisami oferującymi przestrzeń dyskową typu Microfost OneDrive, Google Drive, Mega itp. oraz wspiera serwisy chmurowe: Backblaze B2, Google Cloud Storage, Amazon S3[fn:: https://www.duplicati.com/]. Przykłady integracji z chmurą znajdują się poniżej.
+Duplicati zostało zbudowane z myślą o tworzeniu zadalnych kopii. Wspiera standardowe protokoły FTP, SSH i WebDAV. Ponadto dobrze integruje się z serwisami oferującymi przestrzeń dyskową typu Microfost OneDrive, Google Drive, Mega itp. oraz wspiera serwisy chmurowe: Backblaze B2, Google Cloud Storage, Amazon S3[fn::https://www.duplicati.com/]. Przykłady integracji z chmurą znajdują się poniżej.
 *** Backblaze B2
 :PROPERTIES:
 :CUSTOM_ID: duplicati-b2
@@ -233,7 +233,7 @@ B2_ACCOUNT_KEY=<MY_APPLICATION_KEY>
 
 Następnym krokiem jest wywołanie komendy restic, gdzie kolejno wpisujemy:
 + ~bucketname~ - nazwa bucketa jaką podaliśmy przy tworzeniu go;
-+ =/path/to/repo= - lokalizacja do repozytorium. W większości przypadków będzie to po prostu =/=, ponieważ zwykle w jednym bucketcie chcemy przechowywać jeden backup.
++ ~/path/to/repo~ - lokalizacja do repozytorium. W większości przypadków będzie to po prostu ~/~, ponieważ zwykle w jednym bucketcie chcemy przechowywać jeden backup.
 
 #+begin_src bash
 restic -r b2:bucketname:/path/to/repo init
@@ -255,7 +255,7 @@ GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gs-secret-restic-key.json
 GOOGLE_ACCESS_TOKEN=ya29.a0AfH6SMC78...
    #+end_src
 
-Po tym etapie znowu inicjalizujemy repozytorium, dokładnie jak w przypadku Backblaze B2. Jedyną różnicą jest prefix =gs= zamiast =b2=.
+Po tym etapie znowu inicjalizujemy repozytorium, dokładnie jak w przypadku Backblaze B2. Jedyną różnicą jest prefix ~gs~ zamiast ~b2~.
 #+begin_src bash
 restic -r gs:bucketname:/path/to/repo init
 #+end_src

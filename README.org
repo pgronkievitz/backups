@@ -273,7 +273,7 @@ A następnie należy podać odpowiednią linijkę z dobrze dobranym terminarzem.
 
 * Przykład konfiguracji na NixOS
 NixOS to system operacyjny stworzony z myślą o reprodukowalności. Cały system może zostać skonfigurowany korzystając z plików ~.nix~. W plikach tych deklaruje się jakie funkcje systemu mają być dostępne, a nix zadba o to, aby spełnione były wszystkie zależności (co do hash i wersji zależności). Zależności te przechowuje w ~Nix store~ z nazwami jednoznacznie określającymi hash-nazwa-wersja np.
-/~/nix/store/mp263606k0jikl0pa93k8y3z3z8b3i3w-rclone.age/.
+~/nix/store/mp263606k0jikl0pa93k8y3z3z8b3i3w-rclone.age/~.
 
 W przypadku gdy interesuje nas wyłącznie tworzenie kopii danych, to konfiguracja pokazanego wcześniej oprogramowania na NixOS jest bardzo prosta, sprowadza się do umieszczenia plików konfiguracyjnych w swojej konfiguracji. NixOs sam włączy odpowiednie serwisy (zgodnie z konfiguracją), pobierze zależności i włączy backupy co ustalony czas.
 

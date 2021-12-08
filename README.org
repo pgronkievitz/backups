@@ -271,6 +271,49 @@ A następnie należy podać odpowiednią linijkę z dobrze dobranym terminarzem.
 0 */2 * * * restic -r b2:bucketname:/path/to/repo backup /path/to/backed/up/data
 #+end_src
 
+* Przykład konfiguracji na NixOS
+NixOS to system operacyjny stworzony z myślą o reprodukowalności. Cały system może zostać skonfigurowany korzystając z plików ~.nix~. W plikach tych deklaruje się jakie funkcje systemu mają być dostępne, a nix zadba o to, aby spełnione były wszystkie zależności (co do hash i wersji zależności). Zależności te przechowuje w ~Nix store~ z nazwami jednoznacznie określającymi hash-nazwa-wersja np.
+~/nix/store/mp263606k0jikl0pa93k8y3z3z8b3i3w-rclone.age/~.
+
+W przypadku gdy interesuje nas wyłącznie tworzenie kopii danych, to konfiguracja pokazanego wcześniej oprogramowania na NixOS jest bardzo prosta, sprowadza się do umieszczenia plików konfiguracyjnych w swojej konfiguracji. NixOs sam włączy odpowiednie serwisy (zgodnie z konfiguracją), pobierze zależności i włączy backupy co ustalony czas.
+
+Przykład konfiguracji tworzącej kopie zapasowe znajduje się poniżej. Oprócz standardowej konfiguracji znajdują się w niej odniesienia do ~config.age.secrets~, pozwala to na szyfrowanie plików konfiguracyjnych do kopii zapasowych. Całą konfigurację można przechowywać publicznie na GitHub. W przypadku awarii cały system przywraca się z publicznej konfiguracji, a do odzyskania danych wymagane są dodatkowo klucze SSH, którymi zaszyfrowane były pliki konfiguracyjne.
+
+#+begin_src nix
+services.restic.backups = {
+b2 = {
+  paths = [ "/home/pk" ];
+  repository = "rclone:b2:pk-backup-home";
+  initialize = true;
+  passwordFile = config.age.secrets.restic.path;
+  timerConfig = {
+    OnCalendar = "00:05";
+  };
+  pruneOpts = [
+    "--keep-daily 7"
+    "--keep-weekly 4"
+    "--keep-monthly 12"
+    "--keep-yearly 12"
+  ];
+
+  extraBackupArgs = [
+    "--exclude-caches"
+    "--exclude='/home/pk/.conda'"
+    "--exclude='/home/pk/.npm'"
+    "--exclude='/home/pk/.local'"
+    "--exclude='/home/pk/bin'"
+    "--exclude='/home/pk/Desktop'"
+    "--exclude='/home/pk/Downloads'"
+    "--exclude='/home/pk/miniconda3'"
+    "--exclude='/home/pk/Videos'"
+    "--exclude='/home/pk/VirtualBox VM'"
+    "--exclude='/home/pk/.jupyter'"
+  ];
+
+  rcloneConfigFile = config.age.secrets.rclone.path;
+};
+#+end_src
+
 * Podsumowanie
 
 Pomimo wielu różnic między systemami do backupów, są bardzo zbliżone do siebie. Porównanie sprawdzonych programów znajduje się w tabeli [[tbl:comparison]]. Wynika z niej, że ~tar~ i ~rsync~ pomimo bycia najprostszymi w użyciu teoretycznie nie są opcją najlepszą, przede wszystkim ze względu na konieczność znajomości tych komend, a dodatkowo ~CRON~-a lub innych narzędzi do planowania zadań. Restic jest opcją najlepszą w przypadku serwerów ze względu na prostotę konfiguracji bez dostępu do interfejsu graficznego, natomiast dla ,,przeciętnego'' użytkownika komputera najlepszym rozwiązaniem jest Duplicati ze względu na przejrzysty interfejs, prostą konfigurację możliwą do ,,wyklikania'' oraz wyświetlanie w tacce systemowej wszystkich błędów i ostrzeżeń.
